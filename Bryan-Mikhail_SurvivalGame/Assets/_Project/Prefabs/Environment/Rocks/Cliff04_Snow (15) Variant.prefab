@@ -1,0 +1,185 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3732409761552347242
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 94932714153690306, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_ScaleInLightmap
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232411867522940845, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 109
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232411867522940845, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 85.325
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232411867522940845, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 83.525314
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232411867522940845, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 102.72051
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232411867522940845, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2549
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232411867522940845, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 326
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232411867522940845, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 899
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232411867522940845, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.8844694
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232411867522940845, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.37426105
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232411867522940845, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.13349079
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232411867522940845, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.24458711
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232411867522940845, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 36.637
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232411867522940845, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 391.496
+      objectReference: {fileID: 0}
+    - target: {fileID: 1232411867522940845, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 41.583
+      objectReference: {fileID: 0}
+    - target: {fileID: 1896500039016932631, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_Name
+      value: Cliff04_Snow (15) Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1896500039016932631, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990835694050021944, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 95
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990835694050021944, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 15.682153
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990835694050021944, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 15.682153
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990835694050021944, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 18.570805
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990835694050021944, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1402
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990835694050021944, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 38
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990835694050021944, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -463
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990835694050021944, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.42389607
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990835694050021944, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.05366912
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990835694050021944, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.8973719
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990835694050021944, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.11025124
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990835694050021944, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -14.086
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990835694050021944, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 230.549
+      objectReference: {fileID: 0}
+    - target: {fileID: 6990835694050021944, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0.16800001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7660518146545633410, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_Name
+      value: Cliff04Snow (25)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7660518146545633410, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164846745095170391, guid: 985a0294d1e94a54a8552d011c99e253,
+        type: 3}
+      propertyPath: m_ScaleInLightmap
+      value: 0.1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 985a0294d1e94a54a8552d011c99e253, type: 3}
