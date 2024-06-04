@@ -14,8 +14,6 @@ namespace VHS
         [Space, Header("UI")]
         [SerializeField] private InteractionUIPanel uiPanel;
 
-
-
         [Space]
         [Header("Ray Settings")]
         public float rayDistance;
@@ -26,17 +24,16 @@ namespace VHS
         private bool m_interacting;
         private float m_holdTimer = 0f;
 
-
-
         private void Awake()
         {
-           m_cam = FindObjectOfType<Camera>();
+            m_cam = FindObjectOfType<Camera>();
         }
 
         private void Update()
         {
             CheckForInteractable();
             CheckForInteractableInput();
+            CheckForHitInput(); // Check for hit input
         }
 
         void CheckForInteractable()
@@ -60,7 +57,7 @@ namespace VHS
                     {
                         if (!interactionData.IsSameInteractable(_interactable))
                         {
-                            ResetInteractionState(); // Reset interaction when looking at a new object
+                            ResetInteractionState();
                             interactionData.Interactable = _interactable;
                             uiPanel.SetToolTip(_interactable.ToolTipMessage);
                         }
@@ -71,7 +68,7 @@ namespace VHS
             {
                 if (!interactionData.IsEmpty())
                 {
-                    ResetInteractionState(); // Reset interaction when looking away
+                    ResetInteractionState();
                 }
                 uiPanel.ResetUI();
                 interactionData.ResetData();
@@ -84,6 +81,7 @@ namespace VHS
             m_interacting = false;
             m_holdTimer = 0f;
             uiPanel.UpdateProgressBar(0);
+            uiPanel.ResetUI();
         }
 
         void CheckForInteractableInput()
@@ -126,6 +124,31 @@ namespace VHS
                 {
                     interactionData.Interact();
                     m_interacting = false;
+                }
+
+                if (interactionData.Interactable is Resource resource)
+                {
+                    uiPanel.UpdateHealthBar(resource.GetHealthPercent());
+                }
+            }
+        }
+
+        void CheckForHitInput()
+        {
+            if (Input.GetMouseButtonDown(0)) // Check if Mouse0 is pressed
+            {
+                Ray _ray = new Ray(m_cam.transform.position, m_cam.transform.forward);
+                RaycastHit _hitInfo;
+
+                if (Physics.SphereCast(_ray, raySphereRadius, out _hitInfo, rayDistance, interactableLayer))
+                {
+                    Resource resource = _hitInfo.transform.GetComponent<Resource>();
+                    if (resource != null)
+                    {
+                        resource.ApplyDamage(10f); // Example damage value, adjust as needed
+                        uiPanel.UpdateHealthBar(resource.GetHealthPercent());
+                        Debug.Log("Hit " + resource.gameObject.name + ". Remaining health: " + resource.GetHealthPercent() * 100 + "%");
+                    }
                 }
             }
         }

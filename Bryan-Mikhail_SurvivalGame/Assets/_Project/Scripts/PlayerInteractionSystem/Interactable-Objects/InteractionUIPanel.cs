@@ -8,23 +8,33 @@ namespace VHS
 {
     public class InteractionUIPanel : MonoBehaviour
     {
+        [Header("UI Elements")]
+        [SerializeField] private TextMeshProUGUI toolTipText;
         [SerializeField] private Image progressBar;
-        [SerializeField] private TextMeshProUGUI tooltipText;
+        [SerializeField] private Image healthBar;
 
-        public void SetToolTip(string tooltip)
+        public void SetToolTip(string message)
         {
-            tooltipText.SetText(tooltip);
-        }
-
-        public void UpdateProgressBar(float fillAmount)
-        {
-            progressBar.fillAmount = fillAmount;
+            toolTipText.text = message;
         }
 
         public void ResetUI()
         {
-            progressBar.fillAmount = 0f;
-            tooltipText.SetText("");
+            toolTipText.text = "";
+            progressBar.fillAmount = 0;
+            healthBar.fillAmount = 0;
+            healthBar.gameObject.SetActive(false); 
+        }
+
+        public void UpdateProgressBar(float value)
+        {
+            progressBar.fillAmount = value;
+        }
+
+        public void UpdateHealthBar(float value)
+        {
+            healthBar.gameObject.SetActive(true); 
+            healthBar.fillAmount = value; 
         }
     }
 }

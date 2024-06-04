@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     public float sprintMultiplier = 2f;
 
     public float interactRange = 2f;
-    private Inventory inventory;
 
     //Player Camera Sense
     public float lookSensitivity = 2f;
@@ -28,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
         rb.freezeRotation = true;
-        inventory = GetComponent<Inventory>();
 
     }
 
@@ -37,7 +35,6 @@ public class PlayerMovement : MonoBehaviour
         LookAround();
         Move();
         Jump();
-        InteractWithResource();
 
     }
 
@@ -101,22 +98,7 @@ public class PlayerMovement : MonoBehaviour
         return Physics.Raycast(transform.position, Vector3.down, 1.1f);
     }
 
-    void InteractWithResource()
-    {
-        if (Input.GetKeyDown(KeyCode.E)) // Press E to interact
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, interactRange))
-            {
-                Resource resource = hit.collider.GetComponent<Resource>();
-                if (resource != null)
-                {
-                    inventory.AddResource(resource.resourceName, resource.resourceAmount);
-                    resource.CollectResource();
-                }
-            }
-        }
-    }
+
 
 }
 
