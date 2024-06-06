@@ -41,7 +41,7 @@ namespace UnityEngine.AzureSky
         [SerializeField] private int m_minute = 0;
 
         [Tooltip("The day used by the calendar and date system.")]
-        [SerializeField] private int m_day = 1;
+        [SerializeField] public int m_day = 1;
 
         [Tooltip("The month used by the calendar and date system.")]
         [SerializeField] private int m_month = 1;
@@ -83,7 +83,7 @@ namespace UnityEngine.AzureSky
         [SerializeField] private UnityEvent m_onHourChange = new UnityEvent();
 
         [Tooltip("Event triggered when the day changes to the next day at midnight.")]
-        [SerializeField] private UnityEvent m_onDayChange = new UnityEvent();
+        [SerializeField] public UnityEvent m_onDayChange = new UnityEvent();
 
         [Tooltip("The correct time of day converted from the timeline.")]
         private float m_timeOfDay = 6.0f;
@@ -200,6 +200,7 @@ namespace UnityEngine.AzureSky
                     {
                         IncreaseDay();
                         m_timeline = 0;
+                      
                         m_onDayChange?.Invoke();
                     }
                 }
@@ -266,6 +267,8 @@ namespace UnityEngine.AzureSky
             // Sets the directional light rotation
             SetDirectionalLightRotation();
         }
+
+
 
         /// <summary>
         /// Computes the time progression step based on the day length value.
@@ -1217,10 +1220,11 @@ namespace UnityEngine.AzureSky
         /// Increases the day number.
         /// </summary>
         public void IncreaseDay()
-        {
+        { 
+            m_day++;
             if (m_dateLoop != AzureDateLoop.ByDay)
             {
-                m_day++;
+               
 
                 if (m_day > m_daysInMonth)
                 {
@@ -1228,7 +1232,7 @@ namespace UnityEngine.AzureSky
                     IncreaseMonth();
                 }
             }
-
+            m_onDayChange?.Invoke();
             UpdateCalendar();
         }
 

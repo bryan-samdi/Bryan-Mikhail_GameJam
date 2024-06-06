@@ -32,9 +32,12 @@ public class BearScript : MonoBehaviour
     // Movement and Rotation
     public float rotationSpeed = 5f;
 
-    // Chase timer
+    // Chase timer and cooldown
     public float chaseDuration = 15f;
     private float chaseTimer;
+    public float attackCooldown = 5f;
+    private float cooldownTimer;
+    private bool isCooldown;
 
     private NavMeshAgent agent;
     private enum State { Wander, Chase, Attack }
@@ -47,6 +50,8 @@ public class BearScript : MonoBehaviour
         bearAnim = GetComponent<Animator>();
         wanderTimer = wanderTime;
         attackTimer = 0f;
+        cooldownTimer = 0f;
+        isCooldown = false;
         SwitchState(State.Wander);
     }
 
@@ -58,11 +63,20 @@ public class BearScript : MonoBehaviour
         playerInSightRange = distanceToPlayer <= sightRange;
         playerInAttackRange = distanceToPlayer <= attackRange;
 
+        if (isCooldown)
+        {
+            cooldownTimer -= Time.deltaTime;
+            if (cooldownTimer <= 0f)
+            {
+                isCooldown = false;
+            }
+        }
+
         switch (currentState)
         {
             case State.Wander:
                 Wander();
-                if (playerInSightRange && !playerInAttackRange)
+                if (!isCooldown && playerInSightRange && !playerInAttackRange)
                 {
                     SwitchState(State.Chase);
                 }
@@ -74,9 +88,10 @@ public class BearScript : MonoBehaviour
                 {
                     SwitchState(State.Attack);
                 }
-                else if (!playerInSightRange)
+                else if (!playerInSightRange || chaseTimer >= chaseDuration)
                 {
                     SwitchState(State.Wander);
+                    StartCooldown();
                 }
                 break;
 
@@ -116,45 +131,35 @@ public class BearScript : MonoBehaviour
         if (chaseTimer >= chaseDuration)
         {
             SwitchState(State.Wander);
-            return; 
+            StartCooldown();
+            return;
         }
 
         if (attackTimer <= 0f && playerInAttackRange)
         {
             player.GetComponent<PlayerHealth>().TakeDamage(attackDamage);
             attackTimer = timeBetweenAttacks;
-        }
-        else if (!playerInSightRange && attackTimer <= 0f)
-        {
-            StartCoroutine(StartChaseDelay());
-        }
-    }
-
-    private IEnumerator StartChaseDelay()
-    {
-        yield return new WaitForSeconds(4f); 
-        if (!playerInSightRange)
-        {
-            SwitchState(State.Wander);
         }
     }
 
     private void Attack()
     {
         agent.SetDestination(transform.position);
-        bearAnim.SetTrigger("BearAttack");
-
         SmoothRotateTowards(player.position);
 
         if (attackTimer <= 0f && playerInAttackRange)
         {
+            bearAnim.SetTrigger("BearAttack");
             player.GetComponent<PlayerHealth>().TakeDamage(attackDamage);
             attackTimer = timeBetweenAttacks;
         }
+        else if (attackTimer <= 0f && !playerInAttackRange)
+        {
+            SwitchState(State.Wander);
+            StartCooldown();
+        }
     }
 
-
-    
     private void SwitchState(State newState)
     {
         currentState = newState;
@@ -168,6 +173,12 @@ public class BearScript : MonoBehaviour
         {
             chaseTimer = 0f;
         }
+    }
+
+    private void StartCooldown()
+    {
+        isCooldown = true;
+        cooldownTimer = attackCooldown;
     }
 
     public void TakeDamage(int damage)
@@ -197,7 +208,6 @@ public class BearScript : MonoBehaviour
         NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
         return navHit.position;
     }
-
 
     private void OnDrawGizmosSelected()
     {
