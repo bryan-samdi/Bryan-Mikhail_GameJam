@@ -1,0 +1,96 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemySpawnManager : MonoBehaviour
+{
+
+    [System.Serializable]
+    public class EnemySpawnInfo
+    {
+        public GameObject enemyPrefab;
+        public float spawnRate; // Spawn rate in seconds
+        [Range(0, 1)]
+        public float spawnChance; // Probability of spawning
+    }
+
+    public List<EnemySpawnInfo> enemyList = new List<EnemySpawnInfo>();
+    public Transform[] spawnPoints;
+
+    private bool isNightTime = false;
+    private float spawnInterval = 180f; // Time interval between spawn cycles
+    private Dictionary<Transform, float> spawnTimers = new Dictionary<Transform, float>();
+    private Dictionary<Transform, bool> isSpawning = new Dictionary<Transform, bool>();
+
+    public void StartNightTime()
+    {
+        isNightTime = true;
+        StartCoroutine(SpawnEnemies());
+    }
+
+    public void EndNightTime()
+    {
+        isNightTime = false;
+        StopCoroutine(SpawnEnemies());
+    }
+
+    private IEnumerator SpawnEnemies()
+    {
+        InitializeSpawnTimers();
+
+        while (isNightTime)
+        {
+            foreach (var spawnInfo in enemyList)
+            {
+                foreach (Transform spawnPoint in spawnPoints)
+                {
+                    if (!IsSpawningEnemy(spawnPoint) && CanSpawnEnemy(spawnInfo.spawnChance) && CanSpawnAtPoint(spawnPoint))
+                    {
+                        SetSpawningEnemy(spawnPoint, true);
+                        SpawnEnemy(spawnInfo.enemyPrefab, spawnPoint);
+                        yield return new WaitForSeconds(spawnInfo.spawnRate);
+                    }
+                }
+            }
+            yield return new WaitForSeconds(spawnInterval);
+        }
+    }
+
+    private void InitializeSpawnTimers()
+    {
+        spawnTimers.Clear();
+        isSpawning.Clear();
+        foreach (Transform spawnPoint in spawnPoints)
+        {
+            spawnTimers.Add(spawnPoint, 0f);
+            isSpawning.Add(spawnPoint, false);
+        }
+    }
+
+    private bool CanSpawnEnemy(float spawnChance)
+    {
+        return Random.value <= spawnChance;
+    }
+
+    private bool CanSpawnAtPoint(Transform spawnPoint)
+    {
+        return Time.time >= spawnTimers[spawnPoint];
+    }
+
+    private void SetSpawningEnemy(Transform spawnPoint, bool isSpawningEnemy)
+    {
+        isSpawning[spawnPoint] = isSpawningEnemy;
+    }
+
+    private bool IsSpawningEnemy(Transform spawnPoint)
+    {
+        return isSpawning[spawnPoint];
+    }
+
+    private void SpawnEnemy(GameObject enemyPrefab, Transform spawnPoint)
+    {
+        Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        spawnTimers[spawnPoint] = Time.time + spawnInterval;
+        SetSpawningEnemy(spawnPoint, false);
+    }
+}

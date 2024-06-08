@@ -124,7 +124,7 @@ ModelImporter:
       takeName: rig|Punch
       internalID: 1548114528775633205
       firstFrame: 0
-      lastFrame: 34
+      lastFrame: 27
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -153,7 +153,7 @@ ModelImporter:
       takeName: rig|Punch_2
       internalID: -725131908168409186
       firstFrame: 0
-      lastFrame: 26
+      lastFrame: 20.5
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

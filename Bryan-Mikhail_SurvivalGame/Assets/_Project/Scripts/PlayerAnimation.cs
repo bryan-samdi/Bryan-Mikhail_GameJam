@@ -28,13 +28,13 @@ public class PlayerAnimation : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            anim.SetTrigger("PlayerAttack2");
+            anim.SetTrigger("PlayerAttack");
         }
 
-        if (Input.GetKey(KeyCode.U))
-        {
-            anim.SetTrigger("UnequipKnife");
-        } 
+        //if (Input.GetKey(KeyCode.U))
+        //{
+        //    anim.SetTrigger("UnequipKnife");
+        //} 
 
         if (Input.GetKeyDown(KeyCode.I))
         {

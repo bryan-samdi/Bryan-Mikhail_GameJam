@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class BearScript : MonoBehaviour
 {
     public Transform player;
-    public LayerMask whatIsGround, whatIsPlayer;
     public float health;
     Animator bearAnim;
 
@@ -25,19 +24,18 @@ public class BearScript : MonoBehaviour
 
     // Attacking
     public float timeBetweenAttacks;
-    bool alreadyAttacked;
-    public int attackDamage = 10;
     private float attackTimer;
+    public int attackDamage = 10;
 
     // Movement and Rotation
     public float rotationSpeed = 5f;
 
     // Chase timer and cooldown
-    public float chaseDuration = 15f;
+    public float chaseDuration = 20f;
     private float chaseTimer;
-    public float attackCooldown = 5f;
-    private float cooldownTimer;
-    private bool isCooldown;
+    public float chaseCooldown = 15f; // New cooldown for chasing
+    private float chaseCooldownTimer;
+    private bool isChaseCooldown;
 
     private NavMeshAgent agent;
     private enum State { Wander, Chase, Attack }
@@ -50,8 +48,9 @@ public class BearScript : MonoBehaviour
         bearAnim = GetComponent<Animator>();
         wanderTimer = wanderTime;
         attackTimer = 0f;
-        cooldownTimer = 0f;
-        isCooldown = false;
+        chaseTimer = 0f;
+        chaseCooldownTimer = 0f;
+        isChaseCooldown = false;
         SwitchState(State.Wander);
     }
 
@@ -63,12 +62,12 @@ public class BearScript : MonoBehaviour
         playerInSightRange = distanceToPlayer <= sightRange;
         playerInAttackRange = distanceToPlayer <= attackRange;
 
-        if (isCooldown)
+        if (isChaseCooldown)
         {
-            cooldownTimer -= Time.deltaTime;
-            if (cooldownTimer <= 0f)
+            chaseCooldownTimer -= Time.deltaTime;
+            if (chaseCooldownTimer <= 0f)
             {
-                isCooldown = false;
+                isChaseCooldown = false;
             }
         }
 
@@ -76,7 +75,7 @@ public class BearScript : MonoBehaviour
         {
             case State.Wander:
                 Wander();
-                if (!isCooldown && playerInSightRange && !playerInAttackRange)
+                if (playerInSightRange && !playerInAttackRange && !isChaseCooldown)
                 {
                     SwitchState(State.Chase);
                 }
@@ -91,7 +90,7 @@ public class BearScript : MonoBehaviour
                 else if (!playerInSightRange || chaseTimer >= chaseDuration)
                 {
                     SwitchState(State.Wander);
-                    StartCooldown();
+                    StartChaseCooldown();
                 }
                 break;
 
@@ -131,7 +130,7 @@ public class BearScript : MonoBehaviour
         if (chaseTimer >= chaseDuration)
         {
             SwitchState(State.Wander);
-            StartCooldown();
+            StartChaseCooldown();
             return;
         }
 
@@ -155,8 +154,7 @@ public class BearScript : MonoBehaviour
         }
         else if (attackTimer <= 0f && !playerInAttackRange)
         {
-            SwitchState(State.Wander);
-            StartCooldown();
+            SwitchState(State.Chase);
         }
     }
 
@@ -175,17 +173,17 @@ public class BearScript : MonoBehaviour
         }
     }
 
-    private void StartCooldown()
+    private void StartChaseCooldown()
     {
-        isCooldown = true;
-        cooldownTimer = attackCooldown;
+        isChaseCooldown = true;
+        chaseCooldownTimer = chaseCooldown;
     }
 
     public void TakeDamage(int damage)
     {
         health -= damage;
 
-        if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
+        if (health <= 0) DestroyEnemy();
     }
 
     private void DestroyEnemy()

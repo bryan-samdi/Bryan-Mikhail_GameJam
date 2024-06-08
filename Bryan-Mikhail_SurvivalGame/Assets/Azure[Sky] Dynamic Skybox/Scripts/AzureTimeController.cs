@@ -118,6 +118,16 @@ namespace UnityEngine.AzureSky
         [Tooltip("The list of custom events.")]
         [SerializeField] private List<AzureCustomEvent> m_customEventList = new List<AzureCustomEvent>();
 
+
+        [Tooltip("The hour at which night starts (24-hour format).")]
+        [SerializeField] private int nightStartHour = 18;
+        [Tooltip("The hour at which night ends (24-hour format).")]
+        [SerializeField] private int nightEndHour = 6;
+
+        private EnemySpawnManager enemySpawnManager;
+
+
+
         // Calendar stuffs
         private DateTime m_dateTime;
         private int m_daysInMonth = 30;
@@ -176,6 +186,9 @@ namespace UnityEngine.AzureSky
             ComputeCelestialCoordinates();
             EvaluateSunMoonElevation();
             SetDirectionalLightRotation();
+
+            enemySpawnManager = FindObjectOfType<EnemySpawnManager>();
+
         }
 
         private void Update()
@@ -186,6 +199,17 @@ namespace UnityEngine.AzureSky
                 // Move the prefab always to the target position
                 if (m_followTarget)
                     transform.position = m_followTarget.position;
+
+                if (m_hour == nightStartHour && m_minute == 0 && enemySpawnManager != null)
+                {
+                    enemySpawnManager.StartNightTime();
+                }
+                else if (m_hour == nightEndHour && m_minute == 0 && enemySpawnManager != null)
+                {
+                    enemySpawnManager.EndNightTime();
+                }
+
+
 
                 // Moves the timeline forward
                 if (m_timeDirection == AzureTimeDirection.Forward)
