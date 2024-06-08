@@ -14,6 +14,7 @@ public class PickUpScript : MonoBehaviour
     private Rigidbody heldObjRb; //rigidbody of object we pick up
     private bool canDrop = true; //this is needed so we don't throw/drop object when rotating the object
     private int LayerNumber; //layer index
+    public GameObject playerHands;
 
     //Reference to script which includes mouse movement of player (looking around)
     //we want to disable the player looking around when rotating the object
@@ -28,7 +29,7 @@ public class PickUpScript : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F)) //change E to whichever key you want to press to pick up
+        if (Input.GetKeyDown(KeyCode.F)) //change F to whichever key you want to press to pick up
         {
             if (heldObj == null) //if currently not holding anything
             {
@@ -46,7 +47,7 @@ public class PickUpScript : MonoBehaviour
             }
             else
             {
-                if(canDrop == true)
+                if (canDrop == true)
                 {
                     StopClipping(); //prevents object from clipping through walls
                     DropObject();
@@ -57,7 +58,7 @@ public class PickUpScript : MonoBehaviour
         {
             MoveObject(); //keep object position at holdPos
             RotateObject();
-            if (Input.GetKeyDown(KeyCode.Mouse0) && canDrop == true) //Mous0 (leftclick) is used to throw, change this if you want another button to be used)
+            if (Input.GetKeyDown(KeyCode.Mouse0) && canDrop == true) //Mouse0 (leftclick) is used to throw, change this if you want another button to be used)
             {
                 StopClipping();
                 ThrowObject();
@@ -76,6 +77,9 @@ public class PickUpScript : MonoBehaviour
             heldObj.layer = LayerNumber; //change the object layer to the holdLayer
             //make sure object doesnt collide with player, it can cause weird bugs
             Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
+
+            // Deactivate player hands
+            playerHands.SetActive(false);
         }
     }
     void DropObject()
@@ -86,6 +90,9 @@ public class PickUpScript : MonoBehaviour
         heldObjRb.isKinematic = false;
         heldObj.transform.parent = null; //unparent object
         heldObj = null; //undefine game object
+
+        // Reactivate player hands
+        playerHands.SetActive(true);
     }
     void MoveObject()
     {
@@ -126,6 +133,9 @@ public class PickUpScript : MonoBehaviour
         heldObj.transform.parent = null;
         heldObjRb.AddForce(transform.forward * throwForce);
         heldObj = null;
+
+        // Reactivate player hands
+        playerHands.SetActive(true);
     }
     void StopClipping() //function only called when dropping/throwing
     {

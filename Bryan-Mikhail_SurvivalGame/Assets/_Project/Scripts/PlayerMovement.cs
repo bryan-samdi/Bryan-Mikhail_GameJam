@@ -98,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRange);
             foreach (var hitCollider in hitColliders)
             {
-                if (hitCollider.CompareTag("Enemy") || hitCollider.CompareTag("Resource"))
+                if (hitCollider.CompareTag("Enemy") || hitCollider.CompareTag("Resource") || hitCollider.CompareTag("Animal"))
                 {
                     HealthSystem healthSystem = hitCollider.GetComponent<HealthSystem>();
                     if (healthSystem != null)

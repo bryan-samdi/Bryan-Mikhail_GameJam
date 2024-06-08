@@ -9,6 +9,8 @@ TagManager:
   - Audio
   - Enemy
   - Resource
+  - Animal
+  - PlayerCamera
   layers:
   - Default
   - TransparentFX

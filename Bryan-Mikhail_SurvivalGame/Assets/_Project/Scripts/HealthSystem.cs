@@ -27,7 +27,7 @@ public class HealthSystem : MonoBehaviour
 
     private void Update()
     {
-        if (healthBarUI != null && healthBarUI.activeSelf)
+        if (healthBarUI != null && healthBarUI.activeSelf && mainCamera != null)
         {
             healthBarUI.transform.LookAt(healthBarUI.transform.position + mainCamera.transform.rotation * Vector3.forward, mainCamera.transform.rotation * Vector3.up);
         }
@@ -54,7 +54,6 @@ public class HealthSystem : MonoBehaviour
     {
         // Add your death logic here (e.g., destroy the game object, play an animation, etc.)
         Destroy(gameObject);
-        Debug.Log("Object took Ded");
-
+        Debug.Log("Object died");
     }
 }
