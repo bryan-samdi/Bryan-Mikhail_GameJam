@@ -7,6 +7,8 @@ public class TreeManager : MonoBehaviour
     public GameObject[] treePrefabs; // Assign the tree prefabs with HealthSystem in the inspector
     private Terrain terrain;
 
+    private List<TreeInstance> originalTrees = new List<TreeInstance>();
+
     void Start()
     {
         terrain = GetComponent<Terrain>();
@@ -24,10 +26,16 @@ public class TreeManager : MonoBehaviour
         ReplaceTerrainTrees();
     }
 
+    void OnDisable()
+    {
+        // Restore the original trees when the game stops
+        terrain.terrainData.treeInstances = originalTrees.ToArray();
+    }
+
     void ReplaceTerrainTrees()
     {
         TreeInstance[] trees = terrain.terrainData.treeInstances;
-        List<GameObject> treeObjects = new List<GameObject>();
+        originalTrees.AddRange(trees); // Store original trees to restore later
 
         foreach (TreeInstance tree in trees)
         {
@@ -41,11 +49,16 @@ public class TreeManager : MonoBehaviour
 
             GameObject treePrefab = treePrefabs[treeIndex];
             Vector3 worldPosition = Vector3.Scale(tree.position, terrain.terrainData.size) + terrain.transform.position;
-            GameObject treeObject = Instantiate(treePrefab, worldPosition, Quaternion.identity);
-            treeObjects.Add(treeObject);
+            Instantiate(treePrefab, worldPosition, Quaternion.identity);
         }
 
-        // Clear terrain trees
-        //terrain.terrainData.treeInstances = new TreeInstance[0];
+        // Make terrain trees invisible
+        TreeInstance[] emptyTreeArray = new TreeInstance[trees.Length];
+        for (int i = 0; i < trees.Length; i++)
+        {
+            emptyTreeArray[i] = trees[i];
+            emptyTreeArray[i].color = new Color32(0, 0, 0, 0); // Set trees to be invisible
+        }
+        terrain.terrainData.treeInstances = emptyTreeArray;
     }
 }

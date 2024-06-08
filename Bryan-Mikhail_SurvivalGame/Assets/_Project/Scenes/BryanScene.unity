@@ -14377,15 +14377,15 @@ MonoBehaviour:
   - animalPrefab: {fileID: 9041084435625501355, guid: 90be6d392f60ff84192d649db7d6f6db,
       type: 3}
     spawnRate: 0
-    spawnChance: 0.053
+    spawnChance: 0.2
   - animalPrefab: {fileID: 7766240913264002105, guid: 969b24e7ac5c2e04b81e4939a7457cc6,
       type: 3}
     spawnRate: 0
-    spawnChance: 0.053
+    spawnChance: 0.2
   - animalPrefab: {fileID: 1754869812176435478, guid: 48c31bf91895b334ba4e6a57256f9284,
       type: 3}
     spawnRate: 0
-    spawnChance: 0.053
+    spawnChance: 0.2
   spawnPoints:
   - {fileID: 1960407017}
   - {fileID: 950418634}
@@ -14431,7 +14431,7 @@ MonoBehaviour:
   - {fileID: 236550998}
   - {fileID: 66142235}
   - {fileID: 495964789}
-  minSpawnDistance: 70
+  minSpawnDistance: 30
 --- !u!114 &2062228537
 MonoBehaviour:
   m_ObjectHideFlags: 0
