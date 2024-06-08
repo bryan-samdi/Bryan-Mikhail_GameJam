@@ -94,7 +94,7 @@ public class FoxScript : MonoBehaviour
         }
 
         agent.speed = runAwaySpeed;
-        SmoothRotateTowards(agent.destination);
+        //SmoothRotateTowards(agent.destination);
     }
 
     private void SwitchState(State newState)
@@ -119,12 +119,12 @@ public class FoxScript : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void SmoothRotateTowards(Vector3 target)
-    {
-        Vector3 direction = (target - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-    }
+    //private void SmoothRotateTowards(Vector3 target)
+    //{
+    //    Vector3 direction = (target - transform.position).normalized;
+    //    Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+    //    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+    //}
 
     public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
     {

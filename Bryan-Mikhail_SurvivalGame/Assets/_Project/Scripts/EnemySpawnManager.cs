@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemySpawnManager : MonoBehaviour
 {
-
     [System.Serializable]
     public class EnemySpawnInfo
     {
@@ -16,11 +15,11 @@ public class EnemySpawnManager : MonoBehaviour
 
     public List<EnemySpawnInfo> enemyList = new List<EnemySpawnInfo>();
     public Transform[] spawnPoints;
+    public float minSpawnDistance = 5f; // Minimum distance between enemy spawns
 
     private bool isNightTime = false;
     private float spawnInterval = 180f; // Time interval between spawn cycles
     private Dictionary<Transform, float> spawnTimers = new Dictionary<Transform, float>();
-    private Dictionary<Transform, bool> isSpawning = new Dictionary<Transform, bool>();
 
     public void StartNightTime()
     {
@@ -44,9 +43,8 @@ public class EnemySpawnManager : MonoBehaviour
             {
                 foreach (Transform spawnPoint in spawnPoints)
                 {
-                    if (!IsSpawningEnemy(spawnPoint) && CanSpawnEnemy(spawnInfo.spawnChance) && CanSpawnAtPoint(spawnPoint))
+                    if (CanSpawnEnemy(spawnInfo.spawnChance) && CanSpawnAtPoint(spawnPoint))
                     {
-                        SetSpawningEnemy(spawnPoint, true);
                         SpawnEnemy(spawnInfo.enemyPrefab, spawnPoint);
                         yield return new WaitForSeconds(spawnInfo.spawnRate);
                     }
@@ -59,11 +57,9 @@ public class EnemySpawnManager : MonoBehaviour
     private void InitializeSpawnTimers()
     {
         spawnTimers.Clear();
-        isSpawning.Clear();
         foreach (Transform spawnPoint in spawnPoints)
         {
             spawnTimers.Add(spawnPoint, 0f);
-            isSpawning.Add(spawnPoint, false);
         }
     }
 
@@ -74,23 +70,19 @@ public class EnemySpawnManager : MonoBehaviour
 
     private bool CanSpawnAtPoint(Transform spawnPoint)
     {
+        foreach (var otherSpawnPoint in spawnPoints)
+        {
+            if (spawnPoint != otherSpawnPoint && Vector3.Distance(spawnPoint.position, otherSpawnPoint.position) < minSpawnDistance)
+            {
+                return false;
+            }
+        }
         return Time.time >= spawnTimers[spawnPoint];
-    }
-
-    private void SetSpawningEnemy(Transform spawnPoint, bool isSpawningEnemy)
-    {
-        isSpawning[spawnPoint] = isSpawningEnemy;
-    }
-
-    private bool IsSpawningEnemy(Transform spawnPoint)
-    {
-        return isSpawning[spawnPoint];
     }
 
     private void SpawnEnemy(GameObject enemyPrefab, Transform spawnPoint)
     {
         Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
         spawnTimers[spawnPoint] = Time.time + spawnInterval;
-        SetSpawningEnemy(spawnPoint, false);
     }
 }
