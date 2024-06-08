@@ -9,17 +9,16 @@ public class TreeManager : MonoBehaviour
 
     void Start()
     {
-        // Get the Terrain component from the current game object or find it in the scene
         terrain = GetComponent<Terrain>();
-
         if (terrain == null)
         {
             terrain = FindObjectOfType<Terrain>();
-            if (terrain == null)
-            {
-                Debug.LogError("No Terrain component found. Please ensure there is a Terrain in the scene.");
-                return;
-            }
+        }
+
+        if (terrain == null)
+        {
+            Debug.LogError("No Terrain component found in the scene.");
+            return;
         }
 
         ReplaceTerrainTrees();
@@ -46,6 +45,7 @@ public class TreeManager : MonoBehaviour
             treeObjects.Add(treeObject);
         }
 
-        //terrain.terrainData.treeInstances = new TreeInstance[0]; // Clear terrain trees
+        // Clear terrain trees
+        //terrain.terrainData.treeInstances = new TreeInstance[0];
     }
 }

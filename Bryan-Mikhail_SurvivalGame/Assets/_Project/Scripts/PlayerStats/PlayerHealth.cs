@@ -9,8 +9,7 @@ public class PlayerHealth : MonoBehaviour
     private float lerpTimer;
     public float maxHealth = 100f;
     public float chipSpeed = 2f;
-    public float bulletdamage = 10f;
-    //AudioManager audioManager;
+    public float bulletDamage = 10f;
 
     public Image frontHealthBar;
     public Image backHealthBar;
@@ -19,31 +18,30 @@ public class PlayerHealth : MonoBehaviour
     public float duration;
     public float fadeSpeed;
 
-    //public GameObject gameOverPanel;
-
     private float durationTimer;
+
+    public float regenRate = 2f; // Health per second
+
+    private PlayerSurvivalStats survivalStats;
 
     void Start()
     {
         health = maxHealth;
         overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, 0);
-       // gameOverPanel.SetActive(false);
-        //audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        survivalStats = GetComponent<PlayerSurvivalStats>();
 
+        if (survivalStats == null)
+        {
+            Debug.LogError("PlayerSurvivalStats component is missing from the player.");
+            return;
+        }
     }
 
     void Update()
     {
-        //if (gameOverPanel.activeSelf)
-        //{
-        //    Time.timeScale = 0f;
-        //    Cursor.lockState = CursorLockMode.None;
-        //    Cursor.visible = true;
-        //    return;
-        //}
-
         health = Mathf.Clamp(health, 0, maxHealth);
         UpdateHealthUI();
+
         if (overlay.color.a > 0 && health >= 30)
         {
             durationTimer += Time.deltaTime;
@@ -54,13 +52,22 @@ public class PlayerHealth : MonoBehaviour
                 overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, tempAlpha);
             }
         }
+
+        RegenerateHealth();
+    }
+
+    void RegenerateHealth()
+    {
+        if (survivalStats.currentHunger > 50 && survivalStats.currentThirst > 50 && health < maxHealth)
+        {
+            health += regenRate * Time.deltaTime;
+            health = Mathf.Clamp(health, 0, maxHealth);
+            lerpTimer = 0f; // Reset lerp timer to smooth the bar update
+        }
     }
 
     public void UpdateHealthUI()
     {
-
-
-
         float fillF = frontHealthBar.fillAmount;
         float fillB = backHealthBar.fillAmount;
 
@@ -69,14 +76,13 @@ public class PlayerHealth : MonoBehaviour
 
         if (fillB > hFraction)
         {
-            frontHealthBar.fillAmount = hFraction;
             backHealthBar.color = Color.red;
             lerpTimer += Time.deltaTime;
             float percentComplete = lerpTimer / chipSpeed;
             percentComplete = percentComplete * percentComplete;
             backHealthBar.fillAmount = Mathf.Lerp(fillB, hFraction, percentComplete);
         }
-        if (fillF < hFraction)
+        else if (fillF < hFraction)
         {
             backHealthBar.color = Color.green;
             backHealthBar.fillAmount = hFraction;
@@ -105,21 +111,6 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         Debug.Log("Player Died");
-        //gameOverPanel.SetActive(true);
-        //audioManager.PlaySFX(audioManager.deathSound);
-
+        // Handle player death here
     }
-
-    //public void OnTriggerEnter(Collider other)
-    //{
-    //    PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
-
-    //    if (other.CompareTag("EnemyBullet"))
-    //    {
-
-    //        playerHealth.TakeDamage(bulletDamage);
-    //        Destroy(other.gameObject);
-    //    }
-    //}
-
 }

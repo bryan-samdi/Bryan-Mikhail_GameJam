@@ -6,17 +6,14 @@ using UnityEngine.UI;
 
 public class PlayerSurvivalStats : MonoBehaviour
 {
-    public Image healthBar;
     public Image hungerBar;
     public Image thirstBar;
     public Image staminaBar;
 
-    public float maxHealth = 100f;
     public float maxHunger = 100f;
     public float maxThirst = 100f;
     public float maxStamina = 100f;
 
-    public float currentHealth;
     public float currentHunger;
     public float currentThirst;
     public float currentStamina;
@@ -30,7 +27,6 @@ public class PlayerSurvivalStats : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
         currentHunger = maxHunger;
         currentThirst = maxThirst;
         currentStamina = maxStamina;
@@ -46,7 +42,6 @@ public class PlayerSurvivalStats : MonoBehaviour
 
     private void UpdateBars()
     {
-        healthBar.fillAmount = currentHealth / maxHealth;
         hungerBar.fillAmount = currentHunger / maxHunger;
         thirstBar.fillAmount = currentThirst / maxThirst;
         staminaBar.fillAmount = currentStamina / maxStamina;
@@ -54,13 +49,13 @@ public class PlayerSurvivalStats : MonoBehaviour
 
     private void UpdateHunger()
     {
-        currentHunger -= hungerDecayRate / 60f * Time.deltaTime; // per second
+        currentHunger -= hungerDecayRate / 60f * Time.deltaTime;
         currentHunger = Mathf.Clamp(currentHunger, 0, maxHunger);
     }
 
     private void UpdateThirst()
     {
-        float decayRate = thirstDecayRate / 60f; // per second
+        float decayRate = thirstDecayRate / 60f; 
         if (GetComponent<PlayerMovement>().isRunning)
         {
             decayRate *= thirstRunningMultiplier;
@@ -87,11 +82,11 @@ public class PlayerSurvivalStats : MonoBehaviour
         currentThirst = Mathf.Clamp(currentThirst, 0, maxThirst);
     }
 
-    public void TakeDamage(float amount)
-    {
-        currentHealth -= amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-    }
+    //public void TakeDamage(float amount)
+    //{
+    //    currentHealth -= amount;
+    //    currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+    //}
 
     private void Die()
     {

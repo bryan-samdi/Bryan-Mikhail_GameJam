@@ -29,7 +29,7 @@ public class HealthSystem : MonoBehaviour
     {
         if (healthBarUI != null && healthBarUI.activeSelf && mainCamera != null)
         {
-            healthBarUI.transform.LookAt(healthBarUI.transform.position + mainCamera.transform.rotation * Vector3.forward, mainCamera.transform.rotation * Vector3.up);
+            healthBarUI.transform.LookAt(healthBarUI.transform.position + Camera.main.transform.rotation * Vector3.forward, Camera.main.transform.rotation * Vector3.up);
         }
     }
 
