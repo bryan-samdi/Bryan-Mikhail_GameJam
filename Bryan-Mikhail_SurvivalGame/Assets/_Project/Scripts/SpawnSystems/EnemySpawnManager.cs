@@ -82,7 +82,13 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void SpawnEnemy(GameObject enemyPrefab, Transform spawnPoint)
     {
-        Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        GameObject enemiesParent = GameObject.Find("Spawned-NightTime-Enemies");
+        if (enemiesParent == null)
+        {
+            enemiesParent = new GameObject("Spawned-NightTime-Enemies");
+        }
+
+        Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation, enemiesParent.transform);
         spawnTimers[spawnPoint] = Time.time + spawnInterval;
     }
 }

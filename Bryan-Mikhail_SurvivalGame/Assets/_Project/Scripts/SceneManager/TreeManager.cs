@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class TreeManager : MonoBehaviour
 {
     public GameObject[] treePrefabs; // Assign the tree prefabs with HealthSystem in the inspector
-    private Terrain terrain;
-
-    private List<TreeInstance> originalTrees = new List<TreeInstance>();
+    public Terrain terrain;
+    public TreeInstance[] originalTrees;
 
     void Start()
     {
@@ -23,19 +26,26 @@ public class TreeManager : MonoBehaviour
             return;
         }
 
+        originalTrees = terrain.terrainData.treeInstances;
         ReplaceTerrainTrees();
     }
 
     void OnDisable()
     {
         // Restore the original trees when the game stops
-        terrain.terrainData.treeInstances = originalTrees.ToArray();
+        if (terrain != null)
+        {
+            terrain.terrainData.treeInstances = originalTrees;
+        }
     }
 
     void ReplaceTerrainTrees()
     {
+        // Create a parent GameObject for the trees
+        GameObject treesParent = new GameObject("Spawned-Trees");
+
         TreeInstance[] trees = terrain.terrainData.treeInstances;
-        originalTrees.AddRange(trees); // Store original trees to restore later
+        List<GameObject> treeObjects = new List<GameObject>();
 
         foreach (TreeInstance tree in trees)
         {
@@ -49,16 +59,46 @@ public class TreeManager : MonoBehaviour
 
             GameObject treePrefab = treePrefabs[treeIndex];
             Vector3 worldPosition = Vector3.Scale(tree.position, terrain.terrainData.size) + terrain.transform.position;
-            Instantiate(treePrefab, worldPosition, Quaternion.identity);
+
+            // Instantiate the tree as a child of the Trees parent GameObject
+            GameObject treeObject = Instantiate(treePrefab, worldPosition, Quaternion.identity, treesParent.transform);
+
+            // Apply rotation from the TreeInstance to the instantiated tree
+            treeObject.transform.rotation = Quaternion.AngleAxis(tree.rotation * Mathf.Rad2Deg, Vector3.up);
+            treeObject.transform.localScale = new Vector3(tree.widthScale, tree.heightScale, tree.widthScale);
+
+            // Add the instantiated tree to the list
+            treeObjects.Add(treeObject);
         }
 
-        // Make terrain trees invisible
-        TreeInstance[] emptyTreeArray = new TreeInstance[trees.Length];
-        for (int i = 0; i < trees.Length; i++)
-        {
-            emptyTreeArray[i] = trees[i];
-            emptyTreeArray[i].color = new Color32(0, 0, 0, 0); // Set trees to be invisible
-        }
-        terrain.terrainData.treeInstances = emptyTreeArray;
+        // Clear terrain trees
+        terrain.terrainData.treeInstances = new TreeInstance[0];
     }
 }
+
+#if UNITY_EDITOR
+[InitializeOnLoad]
+public static class PlayModeStateChanged
+{
+    static PlayModeStateChanged()
+    {
+        EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+    }
+
+    private static void OnPlayModeStateChanged(PlayModeStateChange state)
+    {
+        if (state == PlayModeStateChange.ExitingPlayMode)
+        {
+            // Restore trees when exiting play mode
+            TreeManager[] managers = Object.FindObjectsOfType<TreeManager>();
+            foreach (var manager in managers)
+            {
+                if (manager.terrain != null)
+                {
+                    manager.terrain.terrainData.treeInstances = manager.originalTrees;
+                }
+            }
+        }
+    }
+}
+#endif

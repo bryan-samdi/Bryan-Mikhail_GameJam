@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AzureSky;
 
 public class AnimalSpawner : MonoBehaviour
 {
@@ -20,6 +21,33 @@ public class AnimalSpawner : MonoBehaviour
     private bool isDayTime = false;
     private float spawnInterval = 180f; // Time interval between spawn cycles
     private Dictionary<Transform, float> spawnTimers = new Dictionary<Transform, float>();
+
+    private AzureTimeController timeController; // Reference to the time controller script
+
+    private void Start()
+    {
+        // Find the AzureTimeController script in the scene
+        timeController = FindObjectOfType<AzureTimeController>();
+
+        // Subscribe to the day and night events
+        timeController.m_onHourChange.AddListener(OnHourChanged);
+    }
+
+    // Method to handle changes in the hour (time)
+    private void OnHourChanged()
+    {
+        // Check if it's daytime (6 am to 6 pm)
+        if (timeController.m_hour >= 6 && timeController.m_hour < 18)
+        {
+            // Start spawning animals during the day
+            StartDayTime();
+        }
+        else
+        {
+            // End spawning animals during the night
+            EndDayTime();
+        }
+    }
 
     public void StartDayTime()
     {
@@ -82,7 +110,18 @@ public class AnimalSpawner : MonoBehaviour
 
     private void SpawnAnimal(GameObject animalPrefab, Transform spawnPoint)
     {
-        Instantiate(animalPrefab, spawnPoint.position, spawnPoint.rotation);
+        // Create a parent GameObject for the spawned animals
+        GameObject animalsParent = GameObject.Find("Spawned Animals");
+        if (animalsParent == null)
+        {
+            animalsParent = new GameObject("Spawned Animals");
+        }
+
+        // Spawn the animal as a child of the animalsParent GameObject
+        GameObject spawnedAnimal = Instantiate(animalPrefab, spawnPoint.position, spawnPoint.rotation, animalsParent.transform);
+
+
+        // Update the spawn timer for this spawn point
         spawnTimers[spawnPoint] = Time.time + spawnInterval;
     }
 }
