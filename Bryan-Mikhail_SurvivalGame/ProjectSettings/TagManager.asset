@@ -11,6 +11,7 @@ TagManager:
   - Resource
   - Animal
   - PlayerCamera
+  - Crate
   layers:
   - Default
   - TransparentFX
