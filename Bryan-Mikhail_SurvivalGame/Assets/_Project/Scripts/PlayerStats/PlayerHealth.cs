@@ -13,6 +13,8 @@ public class PlayerHealth : MonoBehaviour
 
     public Image frontHealthBar;
     public Image backHealthBar;
+    public GameObject gameOverPanel;
+    AudioManager audioManager;
 
     public Image overlay;
     public float duration;
@@ -20,25 +22,32 @@ public class PlayerHealth : MonoBehaviour
 
     private float durationTimer;
 
-    public float regenRate = 2f; // Health per second
+    public float regenRate = 10f; 
+    private float regenTimer = 0f;
+    private float regenInterval = 15f; 
 
     private PlayerSurvivalStats survivalStats;
 
     void Start()
     {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         health = maxHealth;
         overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, 0);
         survivalStats = GetComponent<PlayerSurvivalStats>();
 
-        if (survivalStats == null)
-        {
-            Debug.LogError("PlayerSurvivalStats component is missing from the player.");
-            return;
-        }
+       
     }
 
     void Update()
     {
+        if (gameOverPanel.activeSelf)
+        {
+            Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            return;
+        }
+
         health = Mathf.Clamp(health, 0, maxHealth);
         UpdateHealthUI();
 
@@ -58,11 +67,18 @@ public class PlayerHealth : MonoBehaviour
 
     void RegenerateHealth()
     {
-        if (survivalStats.currentHunger > 50 && survivalStats.currentThirst > 50 && health < maxHealth)
+        regenTimer += Time.deltaTime;
+
+        if (regenTimer >= regenInterval)
         {
-            health += regenRate * Time.deltaTime;
-            health = Mathf.Clamp(health, 0, maxHealth);
-            lerpTimer = 0f; // Reset lerp timer to smooth the bar update
+            if (survivalStats.currentHunger > 60f && survivalStats.currentThirst > 60f && health < maxHealth)
+            {
+                health += regenRate;
+                health = Mathf.Clamp(health, 0, maxHealth);
+                lerpTimer = 0f;
+            }
+
+            regenTimer = 0f; 
         }
     }
 
@@ -110,7 +126,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("Player Died");
-        // Handle player death here
+        gameOverPanel.SetActive(true);
+        audioManager.PlaySFX(audioManager.deathSound);
     }
 }

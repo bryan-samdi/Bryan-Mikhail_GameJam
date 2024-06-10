@@ -9,12 +9,10 @@ public class RaptorScript : MonoBehaviour
     public float health;
     Animator bearAnim;
 
-    // Patroling/Wandering
     public Vector3 walkPoint;
     bool walkPointSet;
     public float walkPointRange;
 
-    // Chasing
     public float sightRange, chaseRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
     public float wanderSpeed = 1.5f;
@@ -22,18 +20,15 @@ public class RaptorScript : MonoBehaviour
     public float wanderTime = 5.0f;
     private float wanderTimer;
 
-    // Attacking
     public float timeBetweenAttacks;
     private float attackTimer;
     public int attackDamage = 10;
 
-    // Movement and Rotation
     public float rotationSpeed = 5f;
 
-    // Chase timer and cooldown
     public float chaseDuration = 20f;
     private float chaseTimer;
-    public float chaseCooldown = 15f; // New cooldown for chasing
+    public float chaseCooldown = 15f; 
     private float chaseCooldownTimer;
     private bool isChaseCooldown;
 

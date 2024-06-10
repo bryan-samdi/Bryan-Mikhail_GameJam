@@ -6,7 +6,6 @@ namespace VHS
 {
     public class InteractableBase : MonoBehaviour, IInteractable
     {
-//Variables
         [Header("Interactable Settings")]
         [SerializeField] private float holdDuration = 1f;
 
@@ -19,7 +18,6 @@ namespace VHS
 
 
 
-        //Properties
         public float HoldDuration => holdDuration;
         public bool HoldInteract => holdInteract;
         public bool MultipleUse => multipleUse;
@@ -27,10 +25,9 @@ namespace VHS
 
         public string ToolTipMessage => toolTipMessage;
 
-        //Methods
         public virtual void OnInteract()
         {
-            Debug.Log("Interacted with " + gameObject.name);
+            //Debug.Log("Interacted with " + gameObject.name);
         }
     }
 }

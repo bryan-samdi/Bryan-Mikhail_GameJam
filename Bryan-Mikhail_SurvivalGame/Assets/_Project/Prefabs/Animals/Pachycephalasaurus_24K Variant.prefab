@@ -268,7 +268,7 @@ PrefabInstance:
     - target: {fileID: 384858038892544762, guid: 7dd31636c6b446842a29a909d4707742,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 384858038892544762, guid: 7dd31636c6b446842a29a909d4707742,
         type: 3}
@@ -1624,6 +1624,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 687f252f057f8d840a0a4e61f93148ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 150
   healthBarUI: {fileID: 2967049603041843343}
   healthBar: {fileID: 9029848600417899524}

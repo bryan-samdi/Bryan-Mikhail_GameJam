@@ -11,12 +11,10 @@ public class FoxScript : MonoBehaviour
     public float health;
     Animator animalAnim;
 
-    // Patroling/Wandering
     public Vector3 walkPoint;
     bool walkPointSet;
     public float walkPointRange;
 
-    // Running away
     public float runAwayRange;
     public float runAwayDistance;
     public bool playerInRunAwayRange;
@@ -25,7 +23,6 @@ public class FoxScript : MonoBehaviour
     public float wanderTime = 5.0f;
     private float wanderTimer;
 
-    // Movement and Rotation
     public float rotationSpeed = 5f;
 
     private NavMeshAgent agent;
@@ -38,11 +35,22 @@ public class FoxScript : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animalAnim = GetComponent<Animator>();
         wanderTimer = wanderTime;
+
+        if (agent == null || !agent.isOnNavMesh)
+        {
+           
+        }
+
         SwitchState(State.Wander);
     }
 
     private void Update()
     {
+        if (agent == null || !agent.isOnNavMesh)
+        {
+            return;
+        }
+
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
 
         playerInRunAwayRange = distanceToPlayer <= runAwayRange;
@@ -75,7 +83,10 @@ public class FoxScript : MonoBehaviour
         if (wanderTimer >= wanderTime)
         {
             Vector3 newPos = RandomNavSphere(transform.position, walkPointRange, -1);
-            agent.SetDestination(newPos);
+            if (agent.isOnNavMesh)
+            {
+                agent.SetDestination(newPos);
+            }
             wanderTimer = 0f;
         }
 
@@ -90,11 +101,13 @@ public class FoxScript : MonoBehaviour
         {
             Vector3 runDirection = transform.position - player.position;
             Vector3 newPos = RandomNavSphere(transform.position + runDirection.normalized * runAwayDistance, walkPointRange, -1);
-            agent.SetDestination(newPos);
+            if (agent.isOnNavMesh)
+            {
+                agent.SetDestination(newPos);
+            }
         }
 
         agent.speed = runAwaySpeed;
-        //SmoothRotateTowards(agent.destination);
     }
 
     private void SwitchState(State newState)
@@ -111,20 +124,17 @@ public class FoxScript : MonoBehaviour
     {
         health -= damage;
 
-        if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
+        if (health <= 0)
+        {
+            Die();
+        }
     }
 
-    private void DestroyEnemy()
+    private void Die()
     {
         Destroy(gameObject);
     }
 
-    //private void SmoothRotateTowards(Vector3 target)
-    //{
-    //    Vector3 direction = (target - transform.position).normalized;
-    //    Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-    //    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-    //}
 
     public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
     {

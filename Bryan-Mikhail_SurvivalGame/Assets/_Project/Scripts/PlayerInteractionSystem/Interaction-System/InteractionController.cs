@@ -60,7 +60,7 @@ namespace VHS
                     {
                         if (!interactionData.IsSameInteractable(_interactable))
                         {
-                            ResetInteractionState(); // Reset interaction when looking at a new object
+                            ResetInteractionState(); 
                             interactionData.Interactable = _interactable;
                             uiPanel.SetToolTip(_interactable.ToolTipMessage);
                         }
@@ -71,7 +71,7 @@ namespace VHS
             {
                 if (!interactionData.IsEmpty())
                 {
-                    ResetInteractionState(); // Reset interaction when looking away
+                    ResetInteractionState();
                 }
                 uiPanel.ResetUI();
                 interactionData.ResetData();

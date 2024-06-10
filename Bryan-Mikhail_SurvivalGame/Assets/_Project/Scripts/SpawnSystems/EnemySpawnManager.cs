@@ -8,17 +8,17 @@ public class EnemySpawnManager : MonoBehaviour
     public class EnemySpawnInfo
     {
         public GameObject enemyPrefab;
-        public float spawnRate; // Spawn rate in seconds
+        public float spawnRate;
         [Range(0, 1)]
-        public float spawnChance; // Probability of spawning
+        public float spawnChance;
     }
 
     public List<EnemySpawnInfo> enemyList = new List<EnemySpawnInfo>();
     public Transform[] spawnPoints;
-    public float minSpawnDistance = 5f; // Minimum distance between enemy spawns
+    public float minSpawnDistance = 5f;
 
     private bool isNightTime = false;
-    private float spawnInterval = 180f; // Time interval between spawn cycles
+    private float spawnInterval = 180f; 
     private Dictionary<Transform, float> spawnTimers = new Dictionary<Transform, float>();
 
     public void StartNightTime()
@@ -87,7 +87,6 @@ public class EnemySpawnManager : MonoBehaviour
         {
             enemiesParent = new GameObject("Spawned-NightTime-Enemies");
         }
-
         Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation, enemiesParent.transform);
         spawnTimers[spawnPoint] = Time.time + spawnInterval;
     }

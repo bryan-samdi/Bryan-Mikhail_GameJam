@@ -12,13 +12,14 @@ public class AudioManager : MonoBehaviour
 
     public AudioClip background;
 
-    public AudioClip weaponPickUpSound;
-
+    public AudioClip PickUpSound;
     public AudioClip playerhitSound;
-    public AudioClip playerReload;
-
+    public AudioClip gunShootSound;
+    public AudioClip gunReloadSound;
     public AudioClip deathSound;
+    public AudioClip switcHandsSound;
 
+    public AudioClip enemyChase;
     public AudioClip enemyDie;
     public AudioClip enemyHitSound;
 
@@ -37,16 +38,24 @@ public class AudioManager : MonoBehaviour
         SFXSource.PlayOneShot(clip);
     }
 
-   
-
-    public void PlaySFXPickUp(AudioClip playerReload)
+    public void PlaySFXPlayetShoot(AudioClip gunShootSound)
     {
-        SFXSource.PlayOneShot(playerReload);
+        SFXSource.PlayOneShot(gunShootSound);
     }
 
-    public void PlaySFXPlayerReload(AudioClip weaponPickUpSound)
+    public void PlaySFXPlayerReload (AudioClip gunReloadSound)
     {
-        SFXSource.PlayOneShot(weaponPickUpSound);
+        SFXSource.PlayOneShot(gunReloadSound);
+    }
+
+    public void PlaySFXPlayerSwitch(AudioClip switcHandsSound)
+    {
+        SFXSource.PlayOneShot(switcHandsSound);
+    }
+
+    public void PlaySFXPlayerPickUp(AudioClip PickUpSound)
+    {
+        SFXSource.PlayOneShot(PickUpSound);
     }
 
     public void PlaySFXPlayerHit(AudioClip playerhitSound)
@@ -58,6 +67,13 @@ public class AudioManager : MonoBehaviour
     {
         SFXSource.PlayOneShot(enemyHitSound);
     }
+
+    public void PlaySFXEnemyChase(AudioClip enemyChase)
+    {
+        SFXSource.PlayOneShot(enemyChase);
+    }
+
+
     public void PlaySFXEnemyDie(AudioClip enemyDie)
     {
         SFXSource.PlayOneShot(enemyDie);

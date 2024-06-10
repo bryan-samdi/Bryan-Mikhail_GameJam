@@ -18,18 +18,25 @@ public class PlayerSurvivalStats : MonoBehaviour
     public float currentThirst;
     public float currentStamina;
 
-    public float hungerDecayRate = 1f; // per minute
-    public float thirstDecayRate = 1f; // per minute
-    public float staminaDecayRate = 5f; // per second while running
-    public float staminaRecoveryRate = 10f; // per second while resting
-    public float thirstRunningMultiplier = 1.5f; // thirst goes down faster when running
-    public float staminaMinForRun = 10f; // minimum stamina to run
+    public float hungerDecayRate = 1f;
+    public float thirstDecayRate = 1f;
+    public float staminaDecayRate = 5f;
+    public float staminaRecoveryRate = 10f;
+    public float thirstRunningMultiplier = 1.5f;
+    public float staminaMinForRun = 10f;
+    public float damageOverTime = 1f;
+
+    private float damageTimer = 0f;
+    private float damageInterval = 15f;
+
+    private PlayerHealth playerHealth;
 
     private void Start()
     {
         currentHunger = maxHunger;
         currentThirst = maxThirst;
         currentStamina = maxStamina;
+        playerHealth = GetComponent<PlayerHealth>();
     }
 
     private void Update()
@@ -38,6 +45,7 @@ public class PlayerSurvivalStats : MonoBehaviour
         UpdateHunger();
         UpdateThirst();
         UpdateStamina();
+        ApplyDamageOverTime();
     }
 
     private void UpdateBars()
@@ -55,7 +63,7 @@ public class PlayerSurvivalStats : MonoBehaviour
 
     private void UpdateThirst()
     {
-        float decayRate = thirstDecayRate / 60f; 
+        float decayRate = thirstDecayRate / 60f;
         if (GetComponent<PlayerMovement>().isRunning)
         {
             decayRate *= thirstRunningMultiplier;
@@ -70,6 +78,21 @@ public class PlayerSurvivalStats : MonoBehaviour
         currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
     }
 
+    private void ApplyDamageOverTime()
+    {
+        damageTimer += Time.deltaTime;
+
+        if (damageTimer >= damageInterval)
+        {
+            if (currentHunger < 30f || currentThirst < 30f)
+            {
+                playerHealth.TakeDamage(damageOverTime);
+            }
+
+            damageTimer = 0f;
+        }
+    }
+
     public void EatFood(float amount)
     {
         currentHunger += amount;
@@ -80,16 +103,5 @@ public class PlayerSurvivalStats : MonoBehaviour
     {
         currentThirst += amount;
         currentThirst = Mathf.Clamp(currentThirst, 0, maxThirst);
-    }
-
-    //public void TakeDamage(float amount)
-    //{
-    //    currentHealth -= amount;
-    //    currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-    //}
-
-    private void Die()
-    {
-        // Handle player death here
     }
 }

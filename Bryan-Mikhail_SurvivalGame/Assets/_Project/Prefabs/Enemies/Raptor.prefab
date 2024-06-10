@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 5732127540517284994}
   m_Layer: 0
   m_Name: Raptor
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -90,11 +90,11 @@ MonoBehaviour:
   attackRange: 3
   playerInSightRange: 0
   playerInAttackRange: 0
-  wanderSpeed: 2
-  chaseSpeed: 6
+  wanderSpeed: 4
+  chaseSpeed: 7
   wanderTime: 5
   timeBetweenAttacks: 1.5
-  attackDamage: 10
+  attackDamage: 15
   rotationSpeed: 5
   chaseDuration: 15
   chaseCooldown: 15

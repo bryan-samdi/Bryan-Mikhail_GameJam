@@ -35,8 +35,12 @@ public class PlayerMovement : MonoBehaviour
     {
         LookAround();
         Move();
-        Jump();
-        Attack();
+        //Jump();
+
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        {
+            Attack();
+        }
     }
 
     void LookAround()
@@ -77,25 +81,24 @@ public class PlayerMovement : MonoBehaviour
         rb.MovePosition(transform.position + movement);
     }
 
-    void Jump()
-    {
-        if (Input.GetButtonDown("Jump") && IsGrounded() && playerSurvivalStats.currentStamina > playerSurvivalStats.staminaMinForRun)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            playerSurvivalStats.currentStamina -= playerSurvivalStats.staminaDecayRate;
-        }
-    }
+    //void Jump()
+    //{
+    //    if (Input.GetButtonDown("Jump") && IsGrounded() && playerSurvivalStats.currentStamina > playerSurvivalStats.staminaMinForRun)
+    //    {
+    //        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    //        playerSurvivalStats.currentStamina -= playerSurvivalStats.staminaDecayRate;
+    //    }
+    //}
 
-    bool IsGrounded()
-    {
-        return Physics.Raycast(transform.position, Vector3.down, 1.1f);
-    }
+    //bool IsGrounded()
+    //{
+    //    Debug.DrawRay(transform.position, Vector3.down * 1.1f, Color.red);
+    //    return Physics.Raycast(transform.position, Vector3.down, 1.1f);
+    //}
 
     void Attack()
     {
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
-        {
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRange);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRange);
             foreach (var hitCollider in hitColliders)
             {
                 if (hitCollider.CompareTag("Enemy") || hitCollider.CompareTag("Resource") || hitCollider.CompareTag("Animal"))
@@ -103,11 +106,12 @@ public class PlayerMovement : MonoBehaviour
                     HealthSystem healthSystem = hitCollider.GetComponent<HealthSystem>();
                     if (healthSystem != null)
                     {
-                        healthSystem.TakeDamage(attackDamage); // Apply damage to the object
+                        healthSystem.TakeDamage(attackDamage); 
                     }
                 }
             }
-        }
+           
+        
     }
 }
 

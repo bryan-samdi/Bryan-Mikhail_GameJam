@@ -303,7 +303,7 @@ Material:
     - _SpecColor: {r: 0.5882403, g: 0.5882403, b: 0.5882403, a: 0.7}
     - _SpecColor2: {r: 1, g: 1, b: 1, a: 1}
     - _Tan2ObjectMultOffset: {r: 0, g: 0, b: 1, a: 1}
-    - _TintColor: {r: 0.8739783, g: 0.885245, b: 0.91197056, a: 1}
+    - _TintColor: {r: 0.84027666, g: 0.8545563, b: 0.88842905, a: 1}
     - _TranslucencyColor: {r: 1, g: 1, b: 1, a: 1}
     - _TranslucencyColor2: {r: 1, g: 1, b: 1, a: 1}
     - _UV_Clip_Borders: {r: 0, g: 0, b: 1, a: 1}

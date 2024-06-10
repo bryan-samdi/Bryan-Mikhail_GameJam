@@ -15,8 +15,6 @@ GameObject:
   - component: {fileID: 8961483849228015927}
   - component: {fileID: 1900230376148283286}
   - component: {fileID: 7995800955274945908}
-  - component: {fileID: 453971806415280454}
-  - component: {fileID: 3004583653338539329}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -173,50 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de9f425793ea9064485045f94d53366d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 453971806415280454}
   rb: {fileID: 8961483849228015927}
---- !u!95 &453971806415280454
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3214864614080448194}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 4e2d51ae8f0e1b6469742981cc9871c5, type: 3}
-  m_Controller: {fileID: 9100000, guid: 50c942394c934aa4cbe2fe37020a7162, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3004583653338539329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3214864614080448194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ebaf485f1bf9d34988e464ff0ad58d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionInputData: {fileID: 11400000, guid: 76f9eaefcebd87d4ca8d6ef884e39a44,
-    type: 2}
-  interactionData: {fileID: 11400000, guid: f96dea036caf3f946bb9531e808784b0, type: 2}
-  uiPanel: {fileID: 0}
-  rayDistance: 1.5
-  raySphereRadius: 0
-  interactableLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  currentHandObject: {fileID: 0}
 --- !u!1 &7724825611119155800
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,7 +216,6 @@ GameObject:
   - component: {fileID: 1131010660353059747}
   - component: {fileID: 2860067009953673647}
   - component: {fileID: 6843475834158489818}
-  - component: {fileID: 3614620710956104535}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -389,23 +344,6 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!114 &3614620710956104535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8123695498715432012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7345445d6b79e7a49b23301964a208e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 3214864614080448194}
-  holdPos: {fileID: 290837405642860531}
-  throwForce: 100
-  pickUpRange: 3
-  playerHands: {fileID: 0}
 --- !u!1001 &5341258159781970160
 PrefabInstance:
   m_ObjectHideFlags: 0

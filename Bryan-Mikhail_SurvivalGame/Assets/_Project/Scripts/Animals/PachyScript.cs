@@ -10,12 +10,10 @@ public class PachyScript : MonoBehaviour
     public float health;
     Animator animalAnim;
 
-    // Patroling/Wandering
     public Vector3 walkPoint;
     bool walkPointSet;
     public float walkPointRange;
 
-    // Running away
     public float runAwayRange;
     public float runAwayDistance;
     public bool playerInRunAwayRange;
@@ -24,7 +22,6 @@ public class PachyScript : MonoBehaviour
     public float wanderTime = 5.0f;
     private float wanderTimer;
 
-    // Movement and Rotation
     public float rotationSpeed = 5f;
 
     private NavMeshAgent agent;

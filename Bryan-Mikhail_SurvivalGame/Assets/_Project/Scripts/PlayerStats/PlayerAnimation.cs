@@ -4,43 +4,61 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    public Animator anim;
     public Rigidbody rb;
     PlayerMovement playerMovement;
+    public GameObject currentHandObject;
+    private Animator currentHandAnimator;
+    AudioManager audioManager;
 
-  
 
     void Start()
     {
-        anim = gameObject.GetComponent<Animator>();
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
         rb = GetComponent<Rigidbody>();
         playerMovement = GetComponent<PlayerMovement>();
     }
 
     void FixedUpdate()
     {
-        Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        bool isWalking = targetVelocity.magnitude > 0;
-
-        anim.SetBool("isWalking", isWalking);
-
-
-
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (currentHandObject != null && currentHandAnimator != null)
         {
-            anim.SetTrigger("PlayerAttack");
-        }
+            Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            bool isWalking = targetVelocity.magnitude > 0;
 
-        //if (Input.GetKey(KeyCode.U))
-        //{
-        //    anim.SetTrigger("UnequipKnife");
-        //} 
+            currentHandAnimator.SetBool("isWalking", isWalking);
 
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            anim.SetTrigger("PlayerInspect");
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                currentHandAnimator.SetTrigger("PlayerAttack");
+            }
+
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                currentHandAnimator.SetTrigger("PlayerInspect");
+            }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                currentHandAnimator.SetTrigger("PlayerReload");
+            }
         }
     }
 
+    public void EquipWeapon(GameObject newHandObject)
+    {
+        if (currentHandObject == newHandObject)
+        {
+            return;
+        }
 
+        if (currentHandObject != null)
+        {
+            currentHandObject.SetActive(false); 
+        }
+
+        currentHandObject = newHandObject;
+        currentHandObject.SetActive(true);
+        currentHandAnimator = currentHandObject.GetComponent<Animator>();
+    }
 }
